@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>영운모 앱 추가 사이트</title>
 
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="/youngunmo/manifest.json">
 
-    <link rel="apple-touch-icon" href="/images/icon1.png">
+    <link rel="apple-touch-icon" href="/youngunmo/images/icon1.png">
     
     <meta name="theme-color" content="#ffffff">
 
@@ -21,7 +21,7 @@
         if ('serviceWorker' in navigator) {
             // 페이지가 완전히 로드된 후에 서비스 워커를 등록
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/service-worker.js')
+                navigator.serviceWorker.register('/youngunmo/service-worker.js')
                 .then(function(registration) {
                     // 등록 성공
                     console.log('서비스 워커가 성공적으로 등록되었습니다.');
@@ -36,3 +36,4 @@
 </body>
 
 </html>
+
