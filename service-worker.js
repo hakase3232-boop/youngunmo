@@ -1,9 +1,9 @@
 const CACHE_NAME = 'pwa-cache-v1';
 const urlsToCache = [
-    '/',
-    '/index.html',
-    '/images/icon1.png',
-    '/images/icon2.png'
+    '/youngunmo/',
+    '/youngunmo/index.html',
+    '/youngunmo/images/icon1.png',
+    '/youngunmo/images/icon2.png'
 ];
 
 self.addEventListener('install', event => {
@@ -31,6 +31,7 @@ self.addEventListener('fetch', event => {
         })
     );
 });
+
 
 
 
