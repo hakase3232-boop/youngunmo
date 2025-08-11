@@ -1,0 +1,21 @@
+{
+  "name": "영업용 운전자들의 모임",
+  "short_name": "영 운 모",
+  "description": "홈 화면에 추가할 수 있는 웹사이트입니다.",
+  "start_url": "https://cafe.naver.com/truckerking",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/images/icon1.png",
+      "sizes": "150x150",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/icon2.png",
+      "sizes": "300x300",
+      "type": "image/png"
+    }
+  ]
+}
