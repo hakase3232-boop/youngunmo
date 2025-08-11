@@ -8,14 +8,15 @@
   "theme_color": "#ffffff",
   "icons": [
     {
-      "src": "/images/icon1.png",
+      "src": "/youngunmo/images/icon1.png",
       "sizes": "150x150",
       "type": "image/png"
     },
     {
-      "src": "/images/icon2.png",
+      "src": "/youngunmo/images/icon2.png",
       "sizes": "300x300",
       "type": "image/png"
     }
   ]
+
 }
