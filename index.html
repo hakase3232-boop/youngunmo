@@ -3,17 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>영운모 이동</title>
+    <title>네이버 카페로 이동 중...</title>
 
     <link rel="manifest" href="/youngunmo/manifest.json">
-    <link rel="apple-touch-icon" href="/youngunmo/images/icon1.png">
+    <link rel="apple-touch-icon" href="/youngunmo/images/icon-192.png">
     <meta name="theme-color" content="#ffffff">
-
-    <script>
-        window.location.href = "https://cafe.naver.com/truckerking";
-    </script>
 </head>
 <body>
+    <h1>잠시만 기다려주세요</h1>
     <p>영운모로 이동 중입니다...</p>
-    </body>
+
+    <script>
+        // 서비스 워커 등록 (기존 코드 그대로 유지)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-worker.js');
+            });
+        }
+        
+        // PWA로 실행 중인지 확인하는 코드
+        function isPWASuccess() {
+          return ['fullscreen', 'standalone', 'minimal-ui'].some(
+            (displayMode) => window.matchMedia('(display-mode: ' + displayMode + ')').matches,
+          );
+        }
+
+        // PWA로 실행 중이면 바로 리디렉션, 아니면 3초 후 리디렉션
+        if (isPWASuccess()) {
+          window.location.href = "https://cafe.naver.com/원하는카페주소";
+        } else {
+          setTimeout(function() {
+              window.location.href = "https://cafe.naver.com/원하는카페주소";
+          }, 3000); // 3000ms = 3초
+        }
+    </script>
+</body>
 </html>
