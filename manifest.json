@@ -2,7 +2,7 @@
   "name": "영업용 운전자들의 모임",
   "short_name": "영 운 모",
   "description": "홈 화면에 추가할 수 있는 웹사이트입니다.",
-  "start_url": "https://hakase3232-boop.github.io",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
@@ -20,4 +20,5 @@
   ]
 
 }
+
 
