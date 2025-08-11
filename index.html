@@ -3,15 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>네이버 카페로 이동 중...</title>
+    <title>영운모 앱 설치 페이지</title>
 
     <link rel="manifest" href="/youngunmo/manifest.json">
     <link rel="apple-touch-icon" href="/youngunmo/images/icon-192.png">
     <meta name="theme-color" content="#ffffff">
+
+    <style>
+        body {
+            font-size: 1.2rem;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #installButton {
+            font-size: 1.5rem;
+            padding: 1rem 2rem;
+            border: none;
+            background-color: #00c73c;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    
 </head>
 <body>
-    <button id="installButton" style="display: none;">앱 설치하기</button>
-    <p>네이버 카페로 이동 중입니다...</p>
+    <button id="installButton" style="display: none;">영운모 앱 설치하기</button>
+    <p>영운모 앱 설치하기 버튼을 눌러주십시오.</p>
 
     <script>
         let deferredPrompt; // PWA 설치 이벤트를 저장할 변수
@@ -63,3 +83,4 @@
     </script>
 </body>
 </html>
+
