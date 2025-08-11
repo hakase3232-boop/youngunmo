@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>네이버 카페로 이동 중...</title>
 
-    <link rel="manifest" href="/youngunmo/manifest.json">
-    <link rel="apple-touch-icon" href="/youngunmo/images/icon-192.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/images/icon-192.png">
     <meta name="theme-color" content="#ffffff">
 </head>
 <body>
@@ -17,7 +17,7 @@
         // 서비스 워커 등록 (기존 코드 그대로 유지)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/youngunmo/service-worker.js');
+                navigator.serviceWorker.register('/service-worker.js');
             });
         }
         
@@ -39,5 +39,6 @@
     </script>
 </body>
 </html>
+
 
 
