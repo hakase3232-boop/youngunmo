@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pwa-cache-v1';
+const CACHE_NAME = 'pwa-cache-v2';
 const urlsToCache = [
     '/youngunmo/',
     '/youngunmo/index.html',
@@ -31,6 +31,7 @@ self.addEventListener('fetch', event => {
         })
     );
 });
+
 
 
 
