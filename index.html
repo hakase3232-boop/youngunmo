@@ -1,50 +1,93 @@
-<script>
-    const CAFE_URL = "https://cafe.naver.com/truckerking"; 
-    const userAgent = navigator.userAgent.toLowerCase();
-    const isIos = /iphone|ipad|ipod/.test(userAgent);
-    const isNaverApp = userAgent.indexOf('naver') !== -1;
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영운모 바로가기 설치</title>
+    <style>
+        body { font-size: 1.5rem; font-family: 'Malgun Gothic', sans-serif; text-align: center; padding: 50px 20px; line-height: 1.6; background-color: #f5f5f5; color: #333; }
+        .big-btn { font-size: 1.8rem; font-weight: bold; padding: 20px 40px; color: white; border: none; border-radius: 15px; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.2); width: 100%; max-width: 400px; margin-top: 20px; }
+        #androidSection button, #naverSection button { background-color: #03cf5d; }
+        #iphoneSection button { background-color: #007aff; }
+        .content-section { display: none; }
+        #iphoneSection { background: white; border: 4px solid #007aff; border-radius: 20px; padding: 20px; margin-top: 20px; }
+        .small-text { font-size: 1rem; color: #666; margin-top: 20px; }
+    </style>
+</head>
+<body>
 
-    // 1. 이미 앱으로 접속 중이면 카페로 바로 이동
-    if (isStandalone) { window.location.replace(CAFE_URL); }
+    <div id="iconData" style="display:none;">
+        </div>
+iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABV7OTTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAB7JSURBVHja7Z15fBvVtf9/Z0Yja7clS7Ylb/Im3mInTuzYThonZCHpS0uhtEChL6X90vdbXp6H0vK09At96SstL6X0pS0U8pYmS9uSkhAnTuI43mI73m3JsiVrtpE0M+f3R9IsW7IlW7Y0M6P5vF+vfmXOzD1X9p25555z7rmXEEIgk8lYArIDZDIZAZDJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxG
+    <div id="main-content">
+        <h2 style="font-size: 2.2rem; margin-bottom: 10px; color: #03cf5d;">영운모 카페</h2>
+        
+        <div id="androidSection" class="content-section">
+            <p>아래 버튼을 눌러 앱을 설치해주세요.</p>
+            <button id="installButton" class="big-btn">영운모 앱 설치하기</button>
+        </div>
 
-    if (isIos) {
-        document.getElementById('iphoneSection').style.display = 'block';
-    } else if (isNaverApp) {
-        document.getElementById('naverSection').style.display = 'block';
-        document.getElementById('goToChrome').onclick = () => {
-            location.href = "intent://" + location.host + location.pathname + "#Intent;scheme=https;package=com.android.chrome;end";
-        };
-    } else {
-        document.getElementById('androidSection').style.display = 'block';
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            document.getElementById('installButton').onclick = () => { e.prompt(); };
+        <div id="naverSection" class="content-section">
+            <p>⚠️ 네이버 앱에서는 설치가 안 됩니다.</p>
+            <button id="goToChrome" class="big-btn">여기를 눌러서 설치하기</button>
+        </div>
+
+        <div id="iphoneSection" class="content-section">
+            <p>🍎 <b>아이폰 전용 자동설치</b></p>
+            <button id="installProfile" class="big-btn">아이폰 바로가기 설치하기</button>
+            <p id="guideText" class="small-text" style="color:red; font-weight:bold;">
+                [허용] 클릭 후 [설정] 앱 맨 위에서<br>
+                '다운로드된 프로파일'을 눌러 설치하세요!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const CAFE_URL = "https://cafe.naver.com/truckerking"; 
+
+        // 1. 접속 환경에 따른 화면 표시 제어
+        window.addEventListener('load', () => {
+            const userAgent = navigator.userAgent.toLowerCase();
+            const isIos = /iphone|ipad|ipod/.test(userAgent);
+            const isNaverApp = userAgent.indexOf('naver') !== -1;
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+
+            // 이미 바로가기로 접속했다면 바로 카페로 이동
+            if (isStandalone) {
+                window.location.replace(CAFE_URL);
+                return;
+            }
+
+            if (isIos) {
+                document.getElementById('iphoneSection').style.display = 'block';
+            } else if (isNaverApp) {
+                document.getElementById('naverSection').style.display = 'block';
+            } else {
+                document.getElementById('androidSection').style.display = 'block';
+            }
         });
-        // 안드로이드 일반 브라우저에서 5초 후 자동 이동 (선택사항)
-        setTimeout(() => { if(!isStandalone && !isIos) window.location.href = CAFE_URL; }, 5000);
-    }
 
-    // 2. 아이폰 설치 버튼 클릭 핸들러
-    document.getElementById('installProfile').onclick = function() {
-        // UUID 생성기 (HTTPS가 아니어도 작동하도록 호환성 확보)
-        const getUUID = () => {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        // 2. 아이폰용 프로파일 설치 로직
+        document.getElementById('installProfile').onclick = function() {
+            // 숨겨둔 태그에서 데이터 추출 및 정제
+            const rawData = document.getElementById('iconData').textContent;
+            const cleanBase64 = rawData.replace(/[^A-Za-z0-9+/=]/g, "");
+
+            if (!cleanBase64) {
+                alert("아이콘 데이터가 없습니다. 코드를 확인해주세요.");
+                return;
+            }
+
+            // UUID 생성기
+            const genUUID = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+                const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
                 return v.toString(16);
             });
-        };
 
-        const uuid1 = getUUID();
-        const uuid2 = getUUID();
+            const uuid1 = genUUID();
+            const uuid2 = genUUID();
 
-        // --- [주의] 여기에 Base64 데이터를 넣으세요 ---
-        let iconRaw = `iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABV7OTTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAB7JSURBVHja7Z15fBvVtf9/Z0Yja7clS7Ylb/Im3mInTuzYThonZCHpS0uhtEChL6X90vdbXp6H0vK09At96SstL6X0pS0U8pYmS9uSkhAnTuI43mI73m3JsiVrtpE0M+f3R9IsW7IlW7Y0M6P5vF+vfmXOzD1X9p25555z7rmXEEIgk8lYArIDZDIZAZDJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGAJRJZARAmUxGA`; 
-        
-        // 공백, 줄바꿈, data:image... 등 헤더 제거 (순수 데이터만 남김)
-        const iconBase64 = iconRaw.replace(/(\r\n|\n|\r| )/gm, "").replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
-
-        const profileContent = `<?xml version="1.0" encoding="UTF-8"?>
+            const profileContent = `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
@@ -60,7 +103,7 @@
             <key>PayloadUUID</key><string>${uuid1}</string>
             <key>PayloadVersion</key><integer>1</integer>
             <key>URL</key><string>${CAFE_URL}</string>
-            <key>Icon</key><data>${iconBase64}</data>
+            <key>Icon</key><data>${cleanBase64}</data>
         </dict>
     </array>
     <key>PayloadDisplayName</key><string>영운모 바로가기 설치</string>
@@ -71,21 +114,40 @@
 </dict>
 </plist>`;
 
-        const blob = new Blob([profileContent], { type: 'application/x-apple-aspen-config' });
-        const url = window.URL.createObjectURL(blob);
-        
-        document.getElementById('guideText').innerHTML = "📥 다운로드 중... 잠시만 기다려주세요!";
+            const blob = new Blob([profileContent], { type: 'application/x-apple-aspen-config' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'youngunmo.mobileconfig';
+            document.body.appendChild(a);
+            a.click();
+            
+            document.getElementById('guideText').innerHTML = "✅ 다운로드 완료!<br>지금 바로 [설정] 앱으로 가서 설치를 마무리하세요!";
 
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'youngunmo.mobileconfig';
-        document.body.appendChild(a);
-        a.click();
-        
-        setTimeout(() => {
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-            document.getElementById('guideText').innerHTML = "✅ [허용] 클릭 완료 후,<br>[설정] 앱 맨 위에서 설치를 마무리하세요!";
-        }, 500);
-    };
-</script>
+            setTimeout(() => {
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            }, 1000);
+        };
+
+        // 3. 네이버 앱 탈출 (안드로이드 전용)
+        document.getElementById('goToChrome').onclick = () => {
+            location.href = "intent://" + location.host + location.pathname + "#Intent;scheme=https;package=com.android.chrome;end";
+        };
+
+        // 4. 안드로이드 PWA 설치 (표준 브라우저)
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+        document.getElementById('installButton').onclick = () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+            } else {
+                alert("크롬 브라우저의 메뉴(⋮)에서 '앱 설치' 또는 '홈 화면에 추가'를 눌러주세요.");
+            }
+        };
+    </script>
+</body>
+</html>
