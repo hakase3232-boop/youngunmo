@@ -138,34 +138,31 @@
             setTimeout(() => { window.URL.revokeObjectURL(url); document.body.removeChild(a); }, 1000);
         };
 
-        // 안드로이드 네이버 앱 -> 크롬 이동
-       // 1. [수정] 안드로이드 인앱(네이버/카톡) 탈출 버튼 클릭 시
+      // [수정] 인앱(네이버/카톡) 탈출 버튼 - 특정 앱 고정 해제
 document.getElementById('goToDefaultBrowser').onclick = () => {
+    // 특정 패키지(com.android.chrome)를 지정하지 않아 모든 브라우저 대응 가능
     const currentUrl = window.location.host + window.location.pathname;
-    
-    // 1. 가장 기본이 되는 Intent 스킴 (기본 브라우저 호출)
-    const intentUrl = "intent://" + currentUrl + "#Intent;scheme=https;end";
-    
-    // 2. 무반응 방지를 위한 시도
-    location.href = intentUrl;
+    location.href = "intent://" + currentUrl + "#Intent;scheme=https;end";
+};
 
-    // 만약 0.5초 동안 아무 반응이 없다면 (앱 전환이 안 되었다면)
-    // 사용자에게 수동 복사 유도 또는 알림창 띄우기
-    setTimeout(() => {
-        if (confirm("브라우저 자동 이동이 제한되었습니다.\n주소를 복사하여 직접 삼성 인터넷이나 크롬에 붙여넣으시겠습니까?")) {
-            const tempInput = document.createElement("input");
-            document.body.appendChild(tempInput);
-            tempInput.value = "https://" + currentUrl;
-            tempInput.select();
-            document.execCommand("copy");
-            document.body.removeChild(tempInput);
-            alert("주소가 복사되었습니다! 브라우저를 열고 주소창에 붙여넣어 주세요.");
+// [수정] 설치 버튼 - 삼성 인터넷 및 기타 브라우저 안내 강화
+document.getElementById('installButton').onclick = () => {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+    } else {
+        // 브라우저별 맞춤형 수동 가이드
+        const ua = navigator.userAgent.toLowerCase();
+        if (ua.indexOf('samsungbrowser') !== -1) {
+            alert("삼성 인터넷 하단 메뉴(≡)를 누르고\n'현재 페이지 추가' -> '홈 화면'을 선택해 주세요.");
+        } else {
+            alert("브라우저 오른쪽 상단 메뉴(⋮)에서\n'홈 화면에 추가'를 눌러주세요.");
         }
-    }, 500);
+    }
 };
     </script>
 </body>
 </html>
+
 
 
 
