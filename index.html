@@ -103,26 +103,40 @@
     const ua = navigator.userAgent.toLowerCase();
     const isSamsung = ua.indexOf('samsungbrowser') !== -1;
 
-    // 1. 시스템이 설치 팝업을 허용했다면 즉시 실행
+   document.getElementById('installButton').onclick = async () => {
+    // [우회책 1] 시스템 신호가 이미 왔다면 즉시 실행
     if (deferredPrompt) {
         deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-            deferredPrompt = null;
-            return;
-        }
+        return;
     }
 
-    // 2. [핵심] 팝업이 안 뜰 때(무반응) 우회 전략
-    if (isSamsung) {
-        // 삼성 인터넷: '현재 페이지 추가' 메뉴를 시각적으로 가이드하거나
-        // 특정 버전 이상에서 작동하는 커스텀 이벤트를 시도합니다.
-        alert("삼성 인터넷 보안 정책으로 자동 설치가 차단되었습니다.\n\n[즉시 설치 방법]\n1. 화면 하단 '≡' 버튼 터치\n2. '현재 페이지 추가' 터치\n3. '홈 화면' 선택\n\n이 방법이 가장 빠르고 확실합니다!");
+    // [우회책 2] 시스템 신호가 없다면(무반응), 삼성 인터넷의 내부 설치 명령 시도
+    const ua = navigator.userAgent.toLowerCase();
+    if (ua.indexOf('samsungbrowser') !== -1) {
+        // 삼성 인터넷은 '홈 화면에 추가'를 수동으로 유도하는 게 가장 빠릅니다.
+        // 여기서 안내창 대신 "애니메이션"이나 "직관적인 가이드"를 바로 보여주세요.
+        showSamsungGuide(); 
     } else {
-        // 크롬/기타: 상단 메뉴를 통해 강제 설치 유도
-        alert("브라우저 보안으로 인해 설치창이 막혔습니다.\n\n상단 점 3개(⋮) 메뉴를 누르고\n[홈 화면에 추가]를 선택하면 바로 설치됩니다.");
+        alert("상단 메뉴(⋮) 클릭 -> [앱 설치]를 눌러주세요!");
     }
 };
+
+// 사용자가 헤매지 않게 버튼 바로 위에 화살표 가이드를 띄우는 함수
+function showSamsungGuide() {
+    const guideOverlay = document.createElement('div');
+    guideOverlay.style = "position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px;";
+    guideOverlay.innerHTML = `
+        <h2 style="color:#03cf5d;">삼성 인터넷 설치 방법</h2>
+        <p style="font-size:1.4rem; text-align:center;">지금 보안 정책으로 버튼이 막혔습니다.<br><b>아래 순서대로 직접 누르면 즉시 설치됩니다!</b></p>
+        <div style="background:#fff; color:#000; padding:20px; border-radius:15px; width:100%; max-width:320px;">
+            <p>1. 하단 메뉴 <b>[ ≡ ]</b> 클릭</p>
+            <p>2. <b>[ 현재 페이지 추가 ]</b> 클릭</p>
+            <p>3. <b>[ 홈 화면 ]</b> 클릭</p>
+        </div>
+        <button onclick="this.parentElement.remove()" style="margin-top:30px; padding:15px 40px; font-size:1.5rem; border-radius:10px; border:none; background:#555; color:#fff;">닫기</button>
+    `;
+    document.body.appendChild(guideOverlay);
+}
         // 아이폰 프로파일 설치 버튼 (기존 로직 유지)
         document.getElementById('installProfile').onclick = () => {
             const profileXml = `<?xml version="1.0" encoding="UTF-8"?>...`; // 기존 프로파일 로직
@@ -135,4 +149,5 @@
     </script>
 </body>
 </html>
+
 
