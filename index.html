@@ -99,6 +99,23 @@
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/youngunmo/service-worker.js?v=8');
         }
+        document.getElementById('installProfile').onclick = function() {
+    // 1. 파일의 전체 절대 경로를 입력하세요.
+    const fileUrl = "https://hakase3232-boop.github.io/youngunmo/youngunmo.MOBILECONFIG";
+    
+    // 2. 보이지 않는 가짜 링크를 만들어 강제 클릭 (다운로드 유도)
+    const a = document.createElement('a');
+    a.href = fileUrl;
+    a.setAttribute('download', 'youngunmo.mobileconfig');
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    // 3. 안내 문구 표시 (다운로드 후 설정앱으로 가라는 안내)
+    alert("파일이 다운로드되었습니다!\n지금 바로 [설정] 앱으로 가서 설치를 완료해주세요.");
+};
     </script>
 </body>
 </html>
+
