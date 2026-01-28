@@ -5,50 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>영운모 바로가기 설치</title>
 
-    <link rel="manifest" href="/youngunmo/manifest.json?v=6">
-    <link rel="apple-touch-icon" href="/youngunmo/images/icon-192.png?v=6">
+    <link rel="manifest" href="/youngunmo/manifest.json?v=8">
+    <link rel="apple-touch-icon" href="/youngunmo/images/icon-192.png?v=8">
     <meta name="theme-color" content="#ffffff">
 
     <style>
-        body {
-            font-size: 1.5rem;
-            font-family: 'Malgun Gothic', sans-serif;
-            text-align: center;
-            padding: 50px 20px;
-            line-height: 1.6;
-            background-color: #f5f5f5;
-            color: #333;
-        }
+        body { font-size: 1.5rem; font-family: 'Malgun Gothic', sans-serif; text-align: center; padding: 50px 20px; line-height: 1.6; background-color: #f5f5f5; color: #333; }
+        .big-btn { font-size: 1.8rem; font-weight: bold; padding: 20px 40px; color: white; border: none; border-radius: 15px; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.2); width: 100%; max-width: 400px; margin-top: 20px; }
+        
+        #androidSection button, #naverSection button { background-color: #03cf5d; } /* 초록색 */
+        #iphoneSection button { background-color: #007aff; } /* 파란색 */
 
-        .big-btn {
-            font-size: 1.8rem;
-            font-weight: bold;
-            padding: 20px 40px;
-            background-color: #03cf5d; /* 기본 초록색 */
-            color: white;
-            border: none;
-            border-radius: 15px;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            width: 100%;
-            max-width: 400px;
-            margin-top: 20px;
-        }
-
-        /* 아이폰용 파란색 버튼 */
-        #installProfile { background-color: #007aff; }
-
-        #iphoneGuide {
-            display: none;
-            background: white;
-            border: 4px solid #007aff;
-            border-radius: 20px;
-            padding: 20px;
-            margin-top: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .highlight { color: #007aff; font-weight: bold; }
+        /* 처음엔 모두 숨김 */
+        .content-section { display: none; }
+        
+        #iphoneSection { background: white; border: 4px solid #007aff; border-radius: 20px; padding: 20px; margin-top: 20px; }
         .small-text { font-size: 1rem; color: #666; margin-top: 20px; }
     </style>
 </head>
@@ -56,24 +27,78 @@
 
     <div id="main-content">
         <h2 style="font-size: 2.2rem; margin-bottom: 10px; color: #03cf5d;">영운모 카페</h2>
-        <p>아래 버튼을 눌러 앱을 설치해주세요.<br>설치 후 자동으로 카페로 이동합니다.</p>
         
-        <button id="installButton" class="big-btn" style="display: none;">
-             영운모 앱 설치하기
-        </button>
-
-        <div id="naverWorkaround" style="display: none;">
-            <p>⚠️ 네이버 앱에서는<br>설치가 되지 않습니다.</p>
-            <button id="goToChrome" class="big-btn">
-                여기를 눌러서 설치하기
-            </button>
-            <p class="small-text">위 버튼을 눌러서 브라우저가 열리면<br>[영운모 앱 설치하기] 버튼을 다시 눌러주세요.</p>
+        <div id="androidSection" class="content-section">
+            <p>아래 버튼을 눌러 앱을 설치해주세요.</p>
+            <button id="installButton" class="big-btn">영운모 앱 설치하기</button>
         </div>
 
-        <div id="iphoneGuide">
-            <p>🍎 <b style="font-size: 1.8rem;">아이폰 전용 자동설치</b></p>
-            <button id="installProfile" class="big-btn">
-                아이폰 바로가기 설치하기
-            </button>
+        <div id="naverSection" class="content-section">
+            <p>⚠️ 네이버 앱에서는 설치가 안 됩니다.</p>
+            <button id="goToChrome" class="big-btn">여기를 눌러서 설치하기</button>
+            <p class="small-text">위 버튼을 눌러 브라우저가 열리면<br><b>[앱 설치하기]</b>를 다시 눌러주세요.</p>
+        </div>
+
+        <div id="iphoneSection" class="content-section">
+            <p>🍎 <b>아이폰 전용 자동설치</b></p>
+            <button id="installProfile" class="big-btn">아이폰 바로가기 설치하기</button>
             <p class="small-text" style="color:red; font-weight:bold;">
-                [허용] 클릭 후 [설정] 앱 맨 위에서
+                [허용] 클릭 후 [설정] 앱 맨 위에서<br>
+                '다운로드된 프로파일'을 눌러 설치하세요!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const CAFE_URL = "https://cafe.naver.com/truckerking"; 
+        const MY_URL = "hakase3232-boop.github.io/youngunmo/"; 
+
+        const userAgent = navigator.userAgent.toLowerCase();
+        const isIos = /iphone|ipad|ipod/.test(userAgent);
+        const isNaverApp = userAgent.indexOf('naver') !== -1;
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+
+        // [체크] 이미 설치해서 들어온 경우
+        if (isStandalone) {
+            window.location.replace(CAFE_URL);
+        }
+
+        // --- 기기별 화면 표시 로직 ---
+
+        if (isIos) {
+            // 아이폰은 무조건 아이폰 섹션만 표시
+            document.getElementById('iphoneSection').style.display = 'block';
+            document.getElementById('installProfile').onclick = () => {
+                location.href = "/youngunmo/youngunmo.mobileconfig";
+            };
+        } 
+        else if (isNaverApp) {
+            // 안드로이드 네이버 앱이면 무조건 네이버 섹션 표시
+            document.getElementById('naverSection').style.display = 'block';
+            document.getElementById('goToChrome').onclick = () => {
+                location.href = "intent://" + MY_URL + "#Intent;scheme=https;package=com.android.chrome;end";
+            };
+        } 
+        else {
+            // 그 외 안드로이드 크롬 등 (설치 유도)
+            // 브라우저가 설치 가능하다고 판단할 때만 버튼을 보여주면 안 뜰 수 있으므로, 
+            // 일단 섹션을 보여주고 버튼 이벤트를 연결합니다.
+            document.getElementById('androidSection').style.display = 'block';
+            
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                const installBtn = document.getElementById('installButton');
+                installBtn.onclick = () => { e.prompt(); };
+            });
+
+            // 5초 뒤에도 설치를 안 하면 카페로 이동
+            setTimeout(() => { if(!isStandalone) window.location.href = CAFE_URL; }, 5000);
+        }
+
+        // 서비스 워커 (v8)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/youngunmo/service-worker.js?v=8');
+        }
+    </script>
+</body>
+</html>
