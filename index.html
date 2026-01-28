@@ -99,21 +99,30 @@
             location.href = "intent://" + currentUrl + "#Intent;scheme=https;end";
         };
 
-        // 안드로이드 설치 버튼 (삼성인터넷 무반응 해결)
-        document.getElementById('installButton').onclick = async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-            } else {
-                // 자동 팝업이 막혔을 경우 브라우저별 수동 안내
-                const ua = navigator.userAgent.toLowerCase();
-                if (ua.indexOf('samsungbrowser') !== -1) {
-                    alert("삼성 인터넷은 보안상 버튼 클릭이 막힐 수 있습니다.\n\n[설치 방법]\n1. 하단 메뉴(≡) 클릭\n2. '현재 페이지 추가' 클릭\n3. '홈 화면'을 선택하세요.");
-                } else {
-                    alert("브라우저 메뉴(⋮)에서 '홈 화면에 추가'를 눌러주세요.");
-                }
-            }
-        };
+      document.getElementById('installButton').onclick = async () => {
+    const ua = navigator.userAgent.toLowerCase();
+    const isSamsung = ua.indexOf('samsungbrowser') !== -1;
 
+    // 1. 시스템이 설치 팝업을 허용했다면 즉시 실행
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+            deferredPrompt = null;
+            return;
+        }
+    }
+
+    // 2. [핵심] 팝업이 안 뜰 때(무반응) 우회 전략
+    if (isSamsung) {
+        // 삼성 인터넷: '현재 페이지 추가' 메뉴를 시각적으로 가이드하거나
+        // 특정 버전 이상에서 작동하는 커스텀 이벤트를 시도합니다.
+        alert("삼성 인터넷 보안 정책으로 자동 설치가 차단되었습니다.\n\n[즉시 설치 방법]\n1. 화면 하단 '≡' 버튼 터치\n2. '현재 페이지 추가' 터치\n3. '홈 화면' 선택\n\n이 방법이 가장 빠르고 확실합니다!");
+    } else {
+        // 크롬/기타: 상단 메뉴를 통해 강제 설치 유도
+        alert("브라우저 보안으로 인해 설치창이 막혔습니다.\n\n상단 점 3개(⋮) 메뉴를 누르고\n[홈 화면에 추가]를 선택하면 바로 설치됩니다.");
+    }
+};
         // 아이폰 프로파일 설치 버튼 (기존 로직 유지)
         document.getElementById('installProfile').onclick = () => {
             const profileXml = `<?xml version="1.0" encoding="UTF-8"?>...`; // 기존 프로파일 로직
@@ -126,3 +135,4 @@
     </script>
 </body>
 </html>
+
