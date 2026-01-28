@@ -99,8 +99,9 @@
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/youngunmo/service-worker.js?v=8');
         }
-     document.getElementById('installProfile').onclick = function() {
-    // 1. 프로파일 내용을 파일 데이터 형태로 직접 만듭니다.
+    document.getElementById('installProfile').onclick = function() {
+    // 영운모 아이콘 이미지 데이터 (Base64)
+    const iconBase64 = "iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABV7OTTAAAAAXNSR0IArs4c6QAAIABJREFUeF7tXQd8VNXWf+/M9BkSIAQSqhSpCkgVpYmiCApSBKRL7016E0KREnoL6S303nuvAtJ7701678mU99/3ZpIpgZBMmYTM/76Pr8m8mXvP2Wfvtda79p7D4fV6vS7uX+6fAn8SFPB4fA6vBOD+XfAnwZ8EBRwBHAHs/0XwJ0EBRwBHAH8p4E+C36OAnAD+UuOfBH8S4AjgLwP8SfD7FHAUAsC7p08Cl0sBR4DLpax7ry8o4AgA3719ErhcCjgCXC5l3Xt9QQFHANi9fRK4XAo4AlwuZd17fUE
     const profileContent = `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -155,6 +156,7 @@
     </script>
 </body>
 </html>
+
 
 
 
