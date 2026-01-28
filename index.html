@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>카페 바로가기 설치</title>
+    <title>영운모 바로가기 설치</title>
 
-    <link rel="manifest" href="/youngunmo/manifest.json?v=3">
-    <link rel="apple-touch-icon" href="/youngunmo/images/icon-192.png?v=3">
+    <link rel="manifest" href="/youngunmo/manifest.json?v=6">
+    <link rel="apple-touch-icon" href="/youngunmo/images/icon-192.png?v=6">
     <meta name="theme-color" content="#ffffff">
 
     <style>
-        /* 어르신들을 위한 큰 글씨 스타일 */
         body {
-            font-size: 1.5rem; /* 전체 글씨 크게 */
+            font-size: 1.5rem;
             font-family: 'Malgun Gothic', sans-serif;
             text-align: center;
             padding: 50px 20px;
@@ -21,12 +20,11 @@
             color: #333;
         }
 
-        /* 큰 초록색 버튼 스타일 */
         .big-btn {
             font-size: 1.8rem;
             font-weight: bold;
             padding: 20px 40px;
-            background-color: #03cf5d; /* 네이버 초록색 */
+            background-color: #03cf5d; /* 기본 초록색 */
             color: white;
             border: none;
             border-radius: 15px;
@@ -37,30 +35,28 @@
             margin-top: 20px;
         }
 
-        /* 아이폰 전용 안내창 (화면 하단에 떠 있음) */
+        /* 아이폰용 파란색 버튼 */
+        #installProfile { background-color: #007aff; }
+
         #iphoneGuide {
             display: none;
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
             background: white;
-            border: 4px solid #03cf5d;
+            border: 4px solid #007aff;
             border-radius: 20px;
             padding: 20px;
-            z-index: 9999;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        .highlight { color: #03cf5d; font-weight: bold; }
+        .highlight { color: #007aff; font-weight: bold; }
         .small-text { font-size: 1rem; color: #666; margin-top: 20px; }
     </style>
 </head>
 <body>
 
     <div id="main-content">
-        <p>아래 버튼을 눌러 앱을 설치해주세요. 이미 설치한경우 자동으로 카페로 이동됩니다.</p>
+        <h2 style="font-size: 2.2rem; margin-bottom: 10px; color: #03cf5d;">영운모 카페</h2>
+        <p>아래 버튼을 눌러 앱을 설치해주세요.<br>설치 후 자동으로 카페로 이동합니다.</p>
         
         <button id="installButton" class="big-btn" style="display: none;">
              영운모 앱 설치하기
@@ -75,98 +71,9 @@
         </div>
 
         <div id="iphoneGuide">
-            <p>🍎 <b style="font-size: 1.8rem;">아이폰 설치방법</b></p>
-            <p>1. 맨 아래 <b style="font-size: 2rem;">[ ↑ ]</b> 버튼 클릭<br>
-            2. <b class="highlight">'홈 화면에 추가'</b> 클릭!</p>
-            <div style="width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 15px solid #03cf5d; margin: 10px auto -30px;"></div>
-        </div>
-    </div>
-
-    <script>
-        // 🚨 본인의 정보로 수정하세요!
-        const CAFE_URL = "https://cafe.naver.com/truckerking"; // 실제 카페 주소
-        const MY_URL = "hakase3232-boop.github.io/youngunmo/"; // 깃허브 주소 (http:// 빼고)
-
-        let deferredPrompt;
-        const userAgent = navigator.userAgent.toLowerCase();
-        const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-        const isNaverApp = userAgent.indexOf('naver') !== -1;
-        const isIos = /iphone|ipad|ipod/.test(userAgent);
-
-        // [핵심] 이미 설치해서 앱으로 들어왔다면 즉시 카페로 이동
-        if (isStandalone) {
-            window.location.replace(CAFE_URL);
-        }
-
-        // 1. 네이버 앱인 경우 (안드로이드 기준)
-        if (isNaverApp && !isIos) {
-            document.getElementById('naverWorkaround').style.display = 'block';
-            document.getElementById('goToChrome').onclick = function() {
-                location.href = "intent://" + MY_URL + "#Intent;scheme=https;package=com.android.chrome;end";
-            };
-        } 
-        // 2. 아이폰인 경우
-        else if (isIos && !isStandalone) {
-            document.getElementById('iphoneGuide').style.display = 'block';
-            // 아이폰은 자동 이동을 조금 늦춤 (설치할 시간을 주기 위해)
-            setTimeout(() => { window.location.href = CAFE_URL; }, 8000);
-        }
-        // 3. 일반 브라우저(크롬 등)인 경우
-        else {
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                const btn = document.getElementById('installButton');
-                btn.style.display = 'block';
-
-                btn.onclick = () => {
-                    deferredPrompt.prompt();
-                    deferredPrompt.userChoice.then((result) => {
-                        if (result.outcome === 'accepted') btn.style.display = 'none';
-                        deferredPrompt = null;
-                    });
-                };
-            });
-
-            // 설치 안 할 사람들을 위해 5초 뒤 카페 자동 이동
-            setTimeout(() => {
-                if (!deferredPrompt) window.location.href = CAFE_URL;
-            }, 5000);
-        }
-
-        // 서비스 워커 등록
-      if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/youngunmo/service-worker.js').then(reg => {
-            // 업데이트가 있는지 체크
-            reg.addEventListener('updatefound', () => {
-                const newWorker = reg.installing;
-                newWorker.addEventListener('statechange', () => {
-                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                        // 새 버전이 설치되면 즉시 새로고침하여 반영
-                        console.log('새 버전 발견! 업데이트를 진행합니다.');
-                        location.reload();
-                    }
-                });
-            });
-        });
-    });
-}
-
-// 서비스 워커가 바뀌었을 때 제어권을 가져오면 새로고침
-let refreshing = false;
-navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (!refreshing) {
-        window.location.reload();
-        refreshing = true;
-    }
-});
-    </script>
-</body>
-</html>
-
-
-
-
-
-
+            <p>🍎 <b style="font-size: 1.8rem;">아이폰 전용 자동설치</b></p>
+            <button id="installProfile" class="big-btn">
+                아이폰 바로가기 설치하기
+            </button>
+            <p class="small-text" style="color:red; font-weight:bold;">
+                [허용] 클릭 후 [설정] 앱 맨 위에서
