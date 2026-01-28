@@ -135,10 +135,11 @@
             document.getElementById('pwa-manifest').setAttribute('href', URL.createObjectURL(blob));
         };
 
-       document.getElementById('installProfile').onclick = function() {
-    const cleanB64 = iconRaw.replace(/^data:image\/png;base64,/, "").replace(/[^A-Za-z0-9+/=]/g, "");
+      document.getElementById('installProfile').onclick = function() {
+    // 1. 아이콘 데이터 정제 (불필요한 헤더 및 공백 제거)
+    const cleanB64 = iconRaw.replace(/^data:image\/[a-z]+;base64,/, "").replace(/\s/g, "");
     
-    // 식별자를 매번 완전히 다르게 생성하여 아이폰이 '새 앱'으로 인식하게 함
+    // 2. 표준 UUID 생성 함수 (아이폰 규격)
     const getUUID = () => {
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
             var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -146,33 +147,38 @@
         });
     };
 
-    let p = '<?xml version="1.0" encoding="UTF-8"?>';
-    p += '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">';
-    p += '<plist version="1.0"><dict><key>PayloadContent</key><array><dict>';
-    
-    p += '<key>FullScreen</key><true/>'; // 주소창 제거
-    p += '<key>IgnoreManifestScope</key><true/>'; // 매니페스트 간섭 무시 추가
-    p += '<key>IsRemovable</key><true/>';
-    p += '<key>Icon</key><data>' + cleanB64 + '</data>';
-    p += '<key>Label</key><string>영운모</string>';
-    p += '<key>PayloadIdentifier</key><string>com.y.s.' + Date.now() + '</string>';
-    p += '<key>PayloadType</key><string>com.apple.webClip.managed</string>';
-    p += '<key>PayloadUUID</key><string>' + getUUID() + '</string>';
-    p += '<key>PayloadVersion</key><integer>1</integer>';
-    
-    // URL 뒤에 미세한 파라미터를 붙여 사파리의 앱 연결 강제성을 흐트러뜨림
-    p += '<key>URL</key><string>' + CAFE_URL + '?open=webclip</string>';
-    
-    p += '</dict></array><key>PayloadDisplayName</key><string>영운모</string>';
-    p += '<key>PayloadIdentifier</key><string>com.y.p.' + Date.now() + '</string>';
-    p += '<key>PayloadType</key><string>Configuration</string>';
-    p += '<key>PayloadUUID</key><string>' + getUUID() + '</string>';
-    p += '<key>PayloadVersion</key><integer>1</integer></dict></plist>';
+    const payloadUUID = getUUID();
+    const configUUID = getUUID();
+
+    // 3. 프로파일 생성 (XML 포맷 정밀 보정)
+    let p = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    p += '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">\n';
+    p += '<plist version="1.0">\n<dict>\n';
+    p += '    <key>PayloadContent</key>\n    <array>\n        <dict>\n';
+    p += '            <key>FullScreen</key><true/>\n';
+    p += '            <key>IgnoreManifestScope</key><true/>\n';
+    p += '            <key>IsRemovable</key><true/>\n';
+    p += '            <key>Icon</key><data>' + cleanB64 + '</data>\n'; // 정제된 아이콘 데이터
+    p += '            <key>Label</key><string>영운모</string>\n';
+    p += '            <key>PayloadIdentifier</key><string>com.youngunmo.webclip.' + Date.now() + '</string>\n';
+    p += '            <key>PayloadType</key><string>com.apple.webClip.managed</string>\n';
+    p += '            <key>PayloadUUID</key><string>' + payloadUUID + '</string>\n';
+    p += '            <key>PayloadVersion</key><integer>1</integer>\n';
+    p += '            <key>URL</key><string>' + CAFE_URL + '</string>\n';
+    p += '        </dict>\n    </array>\n';
+    p += '    <key>PayloadDisplayName</key><string>영운모</string>\n';
+    p += '    <key>PayloadIdentifier</key><string>com.youngunmo.config.' + Date.now() + '</string>\n';
+    p += '    <key>PayloadType</key><string>Configuration</string>\n';
+    p += '    <key>PayloadUUID</key><string>' + configUUID + '</string>\n';
+    p += '    <key>PayloadVersion</key><integer>1</integer>\n';
+    p += '</dict>\n</plist>';
 
     const blob = new Blob([p], { type: 'application/x-apple-aspen-config' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url; a.download = 'youngunmo.mobileconfig'; a.click();
+    
+    setTimeout(() => window.URL.revokeObjectURL(url), 1000);
 };
         // 4. 크롬 전용 설치 버튼
         let defP;
@@ -184,6 +190,7 @@
     </script>
 </body>
 </html>
+
 
 
 
