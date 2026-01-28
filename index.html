@@ -137,34 +137,36 @@
 
        document.getElementById('installProfile').onclick = function() {
     const cleanB64 = iconRaw.replace(/^data:image\/png;base64,/, "").replace(/[^A-Za-z0-9+/=]/g, "");
-    const uid = () => Math.random().toString(36).substring(2, 10).toUpperCase();
     
-    // 아이폰 주소창 제거를 위한 가장 강력한 설정 조합
+    // 식별자를 매번 완전히 다르게 생성하여 아이폰이 '새 앱'으로 인식하게 함
+    const getUUID = () => {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16).toUpperCase();
+        });
+    };
+
     let p = '<?xml version="1.0" encoding="UTF-8"?>';
     p += '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">';
     p += '<plist version="1.0"><dict><key>PayloadContent</key><array><dict>';
     
-    // 1. 전체 화면 강제 (주소창 제거 핵심)
-    p += '<key>FullScreen</key><true/>'; 
-    
-    // 2. 아이콘 광택 효과 제거 (시스템 아이콘처럼 보이게 함)
-    p += '<key>Precomposed</key><true/>';
-    
+    p += '<key>FullScreen</key><true/>'; // 주소창 제거
+    p += '<key>IgnoreManifestScope</key><true/>'; // 매니페스트 간섭 무시 추가
     p += '<key>IsRemovable</key><true/>';
     p += '<key>Icon</key><data>' + cleanB64 + '</data>';
     p += '<key>Label</key><string>영운모</string>';
-    p += '<key>PayloadIdentifier</key><string>com.y.s.' + uid() + '</string>';
+    p += '<key>PayloadIdentifier</key><string>com.y.s.' + Date.now() + '</string>';
     p += '<key>PayloadType</key><string>com.apple.webClip.managed</string>';
-    p += '<key>PayloadUUID</key><string>' + uid() + '</string>';
+    p += '<key>PayloadUUID</key><string>' + getUUID() + '</string>';
     p += '<key>PayloadVersion</key><integer>1</integer>';
     
-    // 3. 목적지 주소 (CAFE_URL)
-    p += '<key>URL</key><string>' + CAFE_URL + '</string>';
+    // URL 뒤에 미세한 파라미터를 붙여 사파리의 앱 연결 강제성을 흐트러뜨림
+    p += '<key>URL</key><string>' + CAFE_URL + '?open=webclip</string>';
     
     p += '</dict></array><key>PayloadDisplayName</key><string>영운모</string>';
-    p += '<key>PayloadIdentifier</key><string>com.y.p.' + uid() + '</string>';
+    p += '<key>PayloadIdentifier</key><string>com.y.p.' + Date.now() + '</string>';
     p += '<key>PayloadType</key><string>Configuration</string>';
-    p += '<key>PayloadUUID</key><string>' + uid() + '</string>';
+    p += '<key>PayloadUUID</key><string>' + getUUID() + '</string>';
     p += '<key>PayloadVersion</key><integer>1</integer></dict></plist>';
 
     const blob = new Blob([p], { type: 'application/x-apple-aspen-config' });
@@ -182,6 +184,7 @@
     </script>
 </body>
 </html>
+
 
 
 
