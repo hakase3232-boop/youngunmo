@@ -135,37 +135,43 @@
             document.getElementById('pwa-manifest').setAttribute('href', URL.createObjectURL(blob));
         };
 
-        // 3. 아이폰 프로파일 생성
-        document.getElementById('installProfile').onclick = function() {
-            const cleanB64 = iconRaw.replace(/^data:image\/png;base64,/, "").replace(/[^A-Za-z0-9+/=]/g, "");
-            const uid = () => Math.random().toString(36).substring(2, 10).toUpperCase();
-            // 아이폰 프로파일 생성 (전체 화면 & 주소창 제거 버전)
-let p = '<?xml version="1.0" encoding="UTF-8"?>';
-p += '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">';
-p += '<plist version="1.0"><dict><key>PayloadContent</key><array><dict>';
+       document.getElementById('installProfile').onclick = function() {
+    const cleanB64 = iconRaw.replace(/^data:image\/png;base64,/, "").replace(/[^A-Za-z0-9+/=]/g, "");
+    const uid = () => Math.random().toString(36).substring(2, 10).toUpperCase();
+    
+    // 아이폰 주소창 제거를 위한 가장 강력한 설정 조합
+    let p = '<?xml version="1.0" encoding="UTF-8"?>';
+    p += '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">';
+    p += '<plist version="1.0"><dict><key>PayloadContent</key><array><dict>';
+    
+    // 1. 전체 화면 강제 (주소창 제거 핵심)
+    p += '<key>FullScreen</key><true/>'; 
+    
+    // 2. 아이콘 광택 효과 제거 (시스템 아이콘처럼 보이게 함)
+    p += '<key>Precomposed</key><true/>';
+    
+    p += '<key>IsRemovable</key><true/>';
+    p += '<key>Icon</key><data>' + cleanB64 + '</data>';
+    p += '<key>Label</key><string>영운모</string>';
+    p += '<key>PayloadIdentifier</key><string>com.y.s.' + uid() + '</string>';
+    p += '<key>PayloadType</key><string>com.apple.webClip.managed</string>';
+    p += '<key>PayloadUUID</key><string>' + uid() + '</string>';
+    p += '<key>PayloadVersion</key><integer>1</integer>';
+    
+    // 3. 목적지 주소 (CAFE_URL)
+    p += '<key>URL</key><string>' + CAFE_URL + '</string>';
+    
+    p += '</dict></array><key>PayloadDisplayName</key><string>영운모</string>';
+    p += '<key>PayloadIdentifier</key><string>com.y.p.' + uid() + '</string>';
+    p += '<key>PayloadType</key><string>Configuration</string>';
+    p += '<key>PayloadUUID</key><string>' + uid() + '</string>';
+    p += '<key>PayloadVersion</key><integer>1</integer></dict></plist>';
 
-// [핵심] 주소창과 하단 바를 날려버리는 설정
-p += '<key>FullScreen</key><true/>'; 
-p += '<key>IsRemovable</key><true/>';
-
-p += '<key>Icon</key><data>' + cleanB64 + '</data>';
-p += '<key>Label</key><string>영운모</string>';
-p += '<key>PayloadIdentifier</key><string>com.y.s.' + uid() + '</string>';
-p += '<key>PayloadType</key><string>com.apple.webClip.managed</string>';
-p += '<key>PayloadUUID</key><string>' + uid() + '</string>';
-p += '<key>PayloadVersion</key><integer>1</integer>';
-p += '<key>URL</key><string>' + CAFE_URL + '</string>';
-p += '</dict></array><key>PayloadDisplayName</key><string>영운모</string>';
-p += '<key>PayloadIdentifier</key><string>com.y.p.' + uid() + '</string>';
-p += '<key>PayloadType</key><string>Configuration</string>';
-p += '<key>PayloadUUID</key><string>' + uid() + '</string>';
-p += '<key>PayloadVersion</key><integer>1</integer></dict></plist>';
-            const blob = new Blob([p], { type: 'application/x-apple-aspen-config' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url; a.download = 'youngunmo.mobileconfig'; a.click();
-        };
-
+    const blob = new Blob([p], { type: 'application/x-apple-aspen-config' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'youngunmo.mobileconfig'; a.click();
+};
         // 4. 크롬 전용 설치 버튼
         let defP;
         window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); defP = e; });
@@ -176,6 +182,7 @@ p += '<key>PayloadVersion</key><integer>1</integer></dict></plist>';
     </script>
 </body>
 </html>
+
 
 
 
