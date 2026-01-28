@@ -143,35 +143,30 @@
 document.getElementById('goToDefaultBrowser').onclick = () => {
     const currentUrl = window.location.host + window.location.pathname;
     
-    // package=com.android.chrome; 부분을 삭제하여 기기의 '기본 브라우저'가 열리도록 유도합니다.
-    // 만약 기본 브라우저가 삼성 인터넷이면 삼성 인터넷이 열립니다.
-    location.href = "intent://" + currentUrl + "#Intent;scheme=https;end";
-};
+    // 1. 가장 기본이 되는 Intent 스킴 (기본 브라우저 호출)
+    const intentUrl = "intent://" + currentUrl + "#Intent;scheme=https;end";
+    
+    // 2. 무반응 방지를 위한 시도
+    location.href = intentUrl;
 
-// 2. [보강] 설치 버튼 로직 (삼성 인터넷 / 크롬 공용)
-document.getElementById('installButton').onclick = () => {
-    if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                console.log('사용자가 설치를 승인했습니다.');
-            }
-            deferredPrompt = null;
-        });
-    } else {
-        // 삼성 인터넷 등에서 prompt가 아직 안 떴을 경우 수동 안내
-        // 기종에 따라 '홈 화면에 추가' 메뉴 위치를 알려줍니다.
-        const isSamsung = /samsungbrowser/i.test(navigator.userAgent);
-        if (isSamsung) {
-            alert("삼성 인터넷 하단 메뉴(≡)를 누르고\n'현재 페이지 추가' -> '홈 화면'을 선택해 주세요.");
-        } else {
-            alert("브라우저 메뉴(⋮)에서\n'홈 화면에 추가'를 눌러주세요.");
+    // 만약 0.5초 동안 아무 반응이 없다면 (앱 전환이 안 되었다면)
+    // 사용자에게 수동 복사 유도 또는 알림창 띄우기
+    setTimeout(() => {
+        if (confirm("브라우저 자동 이동이 제한되었습니다.\n주소를 복사하여 직접 삼성 인터넷이나 크롬에 붙여넣으시겠습니까?")) {
+            const tempInput = document.createElement("input");
+            document.body.appendChild(tempInput);
+            tempInput.value = "https://" + currentUrl;
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            alert("주소가 복사되었습니다! 브라우저를 열고 주소창에 붙여넣어 주세요.");
         }
-    }
+    }, 500);
 };
     </script>
 </body>
 </html>
+
 
 
 
