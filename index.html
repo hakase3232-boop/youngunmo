@@ -100,31 +100,62 @@
             navigator.serviceWorker.register('/youngunmo/service-worker.js?v=8');
         }
      document.getElementById('installProfile').onclick = function() {
-    // 1. 파일 주소 (구글 드라이브나 깃허브 주소)
-    const fileUrl = "https://drive.google.com/uc?export=download&id=1u8Q-r8LHTv5u-CgG3-AYidzUOvalA-l0";
-    
-    // 2. 화면에 안내 문구 즉시 표시 (alert 대신 스타일 변경)
+    // 1. 프로파일 내용을 파일 데이터 형태로 직접 만듭니다.
+    const profileContent = `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>PayloadContent</key>
+    <array>
+        <dict>
+            <key>FullScreen</key><true/>
+            <key>IsRemovable</key><true/>
+            <key>Label</key><string>영운모</string>
+            <key>PayloadDescription</key><string>영운모 바로가기</string>
+            <key>PayloadDisplayName</key><string>영운모</string>
+            <key>PayloadIdentifier</key><string>com.youngunmo.shortcut</string>
+            <key>PayloadType</key><string>com.apple.webClip.managed</string>
+            <key>PayloadUUID</key><string>12345678-1234-1234-1234-1234567890ab</string>
+            <key>PayloadVersion</key><integer>1</integer>
+            <key>URL</key><string>https://cafe.naver.com/truckerking</string>
+        </dict>
+    </array>
+    <key>PayloadDisplayName</key><string>영운모 바로가기 설치</string>
+    <key>PayloadIdentifier</key><string>com.youngunmo.profile</string>
+    <key>PayloadType</key><string>Configuration</string>
+    <key>PayloadUUID</key><string>abcdef12-abcd-abcd-abcd-abcdef123456</string>
+    <key>PayloadVersion</key><integer>1</integer>
+</dict>
+</plist>`;
+
+    // 2. 아이폰이 인식할 수 있는 특수한 형식(Blob)으로 변환
+    const blob = new Blob([profileContent], { type: 'application/x-apple-aspen-config' });
+    const url = window.URL.createObjectURL(blob);
+
+    // 3. 안내 문구 표시
     const iphoneSection = document.getElementById('iphoneSection');
     iphoneSection.innerHTML = `
         <div style="background: #e7f3ff; border: 3px solid #007aff; padding: 20px; border-radius: 20px;">
-            <p style="font-size: 1.5rem; color: #007aff; font-weight: bold;">📥 다운로드 시작!</p>
+            <p style="font-size: 1.5rem; color: #007aff; font-weight: bold;">📥 설치 준비 완료!</p>
             <p style="font-size: 1.2rem; line-height: 1.5; color: #333;">
-                잠시 후 <b>[허용]</b> 팝업이 뜨면 눌러주세요.<br><br>
+                잠시 후 나타나는 <b>[허용]</b> 버튼을 누르세요.<br><br>
                 그 다음 <b>[설정] 앱</b> 맨 위에서<br>
                 <b>'다운로드된 프로파일'</b>을 눌러 설치하세요!
             </p>
-            <button onclick="location.reload()" style="margin-top:10px; padding:10px; border-radius:10px; border:none;">처음으로</button>
         </div>
     `;
 
-    // 3. 0.1초 뒤에 바로 다운로드 실행 (화면 갱신과 거의 동시에 진행)
-    setTimeout(() => {
-        location.href = fileUrl;
-    }, 100);
+    // 4. 즉시 파일 다운로드 실행
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'youngunmo.mobileconfig';
+    a.click();
+    window.URL.revokeObjectURL(url);
 };
     </script>
 </body>
 </html>
+
 
 
 
