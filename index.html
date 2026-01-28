@@ -138,30 +138,32 @@
             setTimeout(() => { window.URL.revokeObjectURL(url); document.body.removeChild(a); }, 1000);
         };
 
-      // [수정] 인앱(네이버/카톡) 탈출 버튼 - 특정 앱 고정 해제
-document.getElementById('goToDefaultBrowser').onclick = () => {
-    // 특정 패키지(com.android.chrome)를 지정하지 않아 모든 브라우저 대응 가능
-    const currentUrl = window.location.host + window.location.pathname;
-    location.href = "intent://" + currentUrl + "#Intent;scheme=https;end";
-};
-
-// [수정] 설치 버튼 - 삼성 인터넷 및 기타 브라우저 안내 강화
-document.getElementById('installButton').onclick = () => {
+document.getElementById('installButton').onclick = async () => {
+    // 1. 브라우저가 설치 준비가 된 경우 (자동 팝업 호출)
     if (deferredPrompt) {
         deferredPrompt.prompt();
-    } else {
-        // 브라우저별 맞춤형 수동 가이드
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+            deferredPrompt = null;
+        }
+    } 
+    // 2. 준비가 안 되었거나 브라우저에서 차단한 경우 (수동 안내)
+    else {
         const ua = navigator.userAgent.toLowerCase();
+        
         if (ua.indexOf('samsungbrowser') !== -1) {
-            alert("삼성 인터넷 하단 메뉴(≡)를 누르고\n'현재 페이지 추가' -> '홈 화면'을 선택해 주세요.");
+            // 삼성 인터넷 전용 상세 가이드
+            alert("삼성 인터넷은 보안상 자동 설치가 막힐 수 있습니다.\n\n[설치 방법]\n1. 하단 메뉴(≡) 클릭\n2. '현재 페이지 추가' 클릭\n3. '홈 화면'을 선택해 주세요!");
         } else {
-            alert("브라우저 오른쪽 상단 메뉴(⋮)에서\n'홈 화면에 추가'를 눌러주세요.");
+            // 크롬 및 기타 브라우저 가이드
+            alert("브라우저 설정에 의해 설치 창이 뜨지 않습니다.\n\n[설치 방법]\n1. 오른쪽 위 점 3개(⋮) 클릭\n2. '홈 화면에 추가' 또는 '앱 설치'를 눌러주세요!");
         }
     }
 };
     </script>
 </body>
 </html>
+
 
 
 
