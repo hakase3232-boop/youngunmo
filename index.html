@@ -99,23 +99,31 @@
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/youngunmo/service-worker.js?v=8');
         }
-        document.getElementById('installProfile').onclick = function() {
-    // 1. 파일의 전체 절대 경로를 입력하세요.
-    const fileUrl = "https://hakase3232-boop.github.io/youngunmo/youngunmo.MOBILECONFIG";
+     document.getElementById('installProfile').onclick = function() {
+    // 1. 파일 주소 (구글 드라이브나 깃허브 주소)
+    const fileUrl = "https://drive.google.com/file/d/1u8Q-r8LHTv5u-CgG3-AYidzUOvalA-l0/view?usp=sharing";
     
-    // 2. 보이지 않는 가짜 링크를 만들어 강제 클릭 (다운로드 유도)
-    const a = document.createElement('a');
-    a.href = fileUrl;
-    a.setAttribute('download', 'youngunmo.mobileconfig');
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    // 2. 화면에 안내 문구 즉시 표시 (alert 대신 스타일 변경)
+    const iphoneSection = document.getElementById('iphoneSection');
+    iphoneSection.innerHTML = `
+        <div style="background: #e7f3ff; border: 3px solid #007aff; padding: 20px; border-radius: 20px;">
+            <p style="font-size: 1.5rem; color: #007aff; font-weight: bold;">📥 다운로드 시작!</p>
+            <p style="font-size: 1.2rem; line-height: 1.5; color: #333;">
+                잠시 후 <b>[허용]</b> 팝업이 뜨면 눌러주세요.<br><br>
+                그 다음 <b>[설정] 앱</b> 맨 위에서<br>
+                <b>'다운로드된 프로파일'</b>을 눌러 설치하세요!
+            </p>
+            <button onclick="location.reload()" style="margin-top:10px; padding:10px; border-radius:10px; border:none;">처음으로</button>
+        </div>
+    `;
 
-    // 3. 안내 문구 표시 (다운로드 후 설정앱으로 가라는 안내)
-    alert("파일이 다운로드되었습니다!\n지금 바로 [설정] 앱으로 가서 설치를 완료해주세요.");
+    // 3. 0.1초 뒤에 바로 다운로드 실행 (화면 갱신과 거의 동시에 진행)
+    setTimeout(() => {
+        location.href = fileUrl;
+    }, 100);
 };
     </script>
 </body>
 </html>
+
 
