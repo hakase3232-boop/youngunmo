@@ -139,7 +139,27 @@
         document.getElementById('installProfile').onclick = function() {
             const cleanB64 = iconRaw.replace(/^data:image\/png;base64,/, "").replace(/[^A-Za-z0-9+/=]/g, "");
             const uid = () => Math.random().toString(36).substring(2, 10).toUpperCase();
-            let p = '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>PayloadContent</key><array><dict><key>FullScreen</key><true/><key>Icon</key><data>' + cleanB64 + '</data><key>Label</key><string>영운모</string><key>PayloadIdentifier</key><string>com.y.s.' + uid() + '</string><key>PayloadType</key><string>com.apple.webClip.managed</string><key>PayloadUUID</key><string>' + uid() + '</string><key>PayloadVersion</key><integer>1</integer><key>URL</key><string>' + CAFE_URL + '</string></dict></array><key>PayloadDisplayName</key><string>영운모</string><key>PayloadIdentifier</key><string>com.y.p.' + uid() + '</string><key>PayloadType</key><string>Configuration</string><key>PayloadUUID</key><string>' + uid() + '</string><key>PayloadVersion</key><integer>1</integer></dict></plist>';
+            // 아이폰 프로파일 생성 (전체 화면 & 주소창 제거 버전)
+let p = '<?xml version="1.0" encoding="UTF-8"?>';
+p += '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">';
+p += '<plist version="1.0"><dict><key>PayloadContent</key><array><dict>';
+
+// [핵심] 주소창과 하단 바를 날려버리는 설정
+p += '<key>FullScreen</key><true/>'; 
+p += '<key>IsRemovable</key><true/>';
+
+p += '<key>Icon</key><data>' + cleanB64 + '</data>';
+p += '<key>Label</key><string>영운모</string>';
+p += '<key>PayloadIdentifier</key><string>com.y.s.' + uid() + '</string>';
+p += '<key>PayloadType</key><string>com.apple.webClip.managed</string>';
+p += '<key>PayloadUUID</key><string>' + uid() + '</string>';
+p += '<key>PayloadVersion</key><integer>1</integer>';
+p += '<key>URL</key><string>' + CAFE_URL + '</string>';
+p += '</dict></array><key>PayloadDisplayName</key><string>영운모</string>';
+p += '<key>PayloadIdentifier</key><string>com.y.p.' + uid() + '</string>';
+p += '<key>PayloadType</key><string>Configuration</string>';
+p += '<key>PayloadUUID</key><string>' + uid() + '</string>';
+p += '<key>PayloadVersion</key><integer>1</integer></dict></plist>';
             const blob = new Blob([p], { type: 'application/x-apple-aspen-config' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -156,5 +176,6 @@
     </script>
 </body>
 </html>
+
 
 
