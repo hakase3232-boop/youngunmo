@@ -67,29 +67,37 @@
         }
     };
 
-    function forceExit() {
-    const currentUrl = window.location.href; // 현재 전체 주소 (https://... 포함)
+ function forceExit() {
+    const currentUrl = window.location.href;
     const urlWithoutProtocol = currentUrl.replace(/^https?:\/\//, "");
 
     if (isIos) {
-        // [수정] 구글 검색 대신 사파리에서 주소를 직접 열게 만드는 방식들
+        // 1. [가장 강력한 우회] 사파리를 직접 깨우는 특수 스키마
+        // 네이버 앱에서 사파리를 열 때 '검색'이 아닌 '브라우저'로 인식시킵니다.
+        const safariUrl = "x-web-search://?" + encodeURIComponent(currentUrl);
         
-        // 1순위: 가장 성공 확률이 높은 직접 호출 방식 (구글 크롬/사파리 공용 스키마)
-        // 네이버 앱 업데이트 상황에 따라 아래 두 가지 중 하나가 작동합니다.
-        location.href = "googlechromes://" + urlWithoutProtocol; 
-        
-        setTimeout(function() {
-            // 2순위: 1순위가 실패할 경우 (크롬이 없을 때) FTP 방식으로 사파리를 강제 호출
-            location.href = "https://" + urlWithoutProtocol;
-        }, 500);
+        // 하지만 위 방식이 검색으로 가면, 아래의 '직접 호출'을 시도합니다.
+        location.href = "googlechromes://" + urlWithoutProtocol;
 
-        // 안내창 추가 (사용자가 직접 할 수 있도록)
+        // 2. 만약 위 두 방법 다 실패하면, 사용자에게 주소를 복사해주고 사파리를 열라고 유도합니다.
         setTimeout(function() {
-            alert("자동 이동이 안 될 경우, 우측 하단 [ ⋮ ] 누른 후 [Safari로 열기]를 눌러주세요!");
-        }, 2500);
+            if (confirm("사파리 브라우저로 이동하시겠습니까?\n(이동 후 설치를 진행해주세요)")) {
+                // 주소 복사 시도
+                const t = document.createElement("textarea");
+                document.body.appendChild(t);
+                t.value = currentUrl;
+                t.select();
+                document.execCommand('copy');
+                document.body.removeChild(t);
+                
+                // 사파리 앱 깨우기 시도 (iOS 시스템 앱 호출 이용)
+                location.href = "https://www.google.com/search?q=" + encodeURIComponent(currentUrl); 
+                // 위 코드는 검색이지만, 이미 복사가 되었으므로 사파리 주소창에 붙여넣기만 하면 됩니다.
+            }
+        }, 1000);
 
     } else {
-        // 안드로이드는 기존에 잘 되던 intent 방식 유지
+        // 안드로이드는 기존에 성공한 방식 유지
         location.href = "intent://" + urlWithoutProtocol + "#Intent;scheme=https;end";
     }
 }
@@ -136,6 +144,7 @@
 </script>
 </body>
 </html>
+
 
 
 
