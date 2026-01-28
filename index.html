@@ -129,11 +129,12 @@
         window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
         document.getElementById('installButton').onclick = () => {
             if (deferredPrompt) { deferredPrompt.prompt(); } 
-            else { alert("보안 정책으로 버튼이 막혔습니다.\n하단 메뉴 [≡] -> [현재 페이지 추가]를 이용해 주세요!"); }
+            else { alert("삼성인터넷 앱의 강력한 보안 정책으로 버튼이 막혔습니다.\n상단 메뉴 [⋮] -> [홈 화면에 추가]를 이용해 주세요!"); }
         };
     </script>
 </body>
 </html>
+
 
 
 
